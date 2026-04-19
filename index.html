@@ -29,7 +29,11 @@
         body { background-color: #F8FAFC; }
         /* 隱藏橫向捲軸，但保留滑動功能 */
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .no-scrollbar { 
+            -ms-overflow-style: none; 
+            scrollbar-width: none; 
+            -webkit-overflow-scrolling: touch; /* iOS 流暢滾動 */
+        }
         /* 時間軸與卡片的淡入動畫 */
         .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; }
         @keyframes fadeIn {
@@ -42,6 +46,10 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.4);
+            /* iOS Safari 渲染優化 */
+            transform: translateZ(0);
+            isolation: isolate;
+            overflow: hidden;
         }
         .hero-gradient {
             background: linear-gradient(135deg, #1C2541 0%, #3F6197 60%, #5BC0BE 100%);
@@ -87,9 +95,9 @@
         </section>
 
         <!-- 區塊 3：動態生成的 Tabs 與 每日行程 -->
-        <section class="glass rounded-3xl shadow-xl p-4 md:p-8 min-h-[500px]">
+        <section class="glass rounded-3xl shadow-xl p-4 md:p-8 min-h-[400px] md:min-h-[500px]">
             <!-- 第 3-1 部分：Tab 標籤列容器 -->
-            <div class="sticky top-0 z-30 bg-white/80 backdrop-blur-md rounded-xl -mx-2 px-2 pb-2 mb-6">
+            <div class="sticky top-0 z-30 bg-white/95 rounded-xl -mx-2 px-2 pb-2 mb-6 shadow-sm">
                 <div id="tabs-container" class="flex overflow-x-auto no-scrollbar gap-2 py-3 border-b border-gray-200">
                     <!-- 由 JavaScript 進行渲染 -->
                 </div>
@@ -222,7 +230,7 @@
                 theme: "🌴【布里斯本】生態與黃金海岸絕景",
                 events: [
                     { time: "08:00", name: "出發", desc: "從布里斯本市區出發", mapQuery: "Brisbane City" },
-                    { time: "09:30", name: "可倫賓野生動物保護區", desc: "抱無尾熊拍照、看袋鼠 (28 Tomewin St)", mapQuery: "Currumbin Wildlife Sanctuary", notes: ["【購票憑證】<a href='https://drive.google.com/file/d/1MWQvMmNsx9sBPfrpIvc5_NtJenLKDH7g/view?usp=drive_link' target='_blank' class='underline text-blue-600 font-bold'>點此查看 PDF 憑證</a>"] },
+                    { time: "09:30", name: "可倫賓野生動物保護區", desc: "抱無尾熊拍照、看袋鼠 (28 Tomewin St)", mapQuery: "Currumbin Wildlife Sanctuary", notes: ["【購票憑證】<a href='https://drive.google.com/file/d/1MWQvMmNsx9sBPfrpIvc5_NtJenLKDH7g/view?usp=drive_link' target='_blank' class='underline text-blue-600 font-bold'>點此查看電子憑證</a>"] },
                     { time: "14:00", name: "衝浪者天堂", desc: "於 Cavill Ave 逛街午餐，並至沙灘踏浪", mapQuery: "Surfers Paradise", notes: ["雖然是秋天，但紫外線依然極強，必備太陽眼鏡、帽子、防曬乳。","週日的市中心非常難停車，建議停在外圍的付費室內停車場再步行前往。"] },
                     { time: "16:00", name: "Q1 Skypoint 觀景台", desc: "俯瞰壯闊的黃金海岸線，享用下午茶", mapQuery: "Q1 Skypoint Observation Deck" },
                     { time: "18:30", name: "啟程返回", desc: "返回布里斯本市區", mapQuery: "" }
@@ -324,17 +332,24 @@
                 date: "5/2 (六)",
                 theme: "🚂【墨爾本】企鵝歸巢之旅",
                 events: [
-                    { time: "10:00", name: "Mail Exchange Hotel 集合", desc: "地址：688 Bourke St，準備參加一日遊", mapQuery: "688 Bourke St, Melbourne", notes: [
+                    { time: "09:35", name: "抵達集合地點報到", desc: "地點：女王陛下劇院 (Her Majesty's Theatre)。活動供應商強烈建議提前 10 分鐘抵達以確保順利報到。", mapQuery: "Her Majesty's Theatre, 219 Exhibition St, Melbourne", notes: [
                         "【購票憑證】<a href='https://drive.google.com/file/d/1vNjyt7CH4jrHEV5IiykZndB4tz9bCbad/view?usp=drive_link' target='_blank' class='underline text-blue-600 font-bold'>點此查看電子憑證</a>",
-                        "【集合資訊】請於 10:00 前抵達。導遊會在接送點外會合，請留意印有「Explore Australia Tours」標誌的紫色巴士。",
-                        "【報到提醒】請務必提前至少 10 分鐘抵達以確保順利報到。",
+                        "【集合資訊】請在接送地點外尋找紫色的巴士，或是車身清楚標有「Explore Australia Tours」標誌的車輛。",
                         "【行程限制】此活動不允許攜帶嬰兒推車，也不允許無成人陪伴的未成年人參加。",
                         "【取消政策】若需取消，必須在 5/1 上午 10:00 之前完成方可全額退款。"
                     ] },
-                    { time: "上午", name: "Puffing Billy 蒸汽火車", desc: "將腳伸出窗外感受微風與森林氣息", mapQuery: "Puffing Billy Railway" },
-                    { time: "下午", name: "菲利普島 (Phillip Island)", desc: "前往 The Nobbies 走木棧道吹海風", mapQuery: "The Nobbies" },
-                    { time: "18:30", name: "企鵝歸巢 (Penguin Parade)", desc: "在優選觀賞區 (Penguins Plus) 近距離看小企鵝回巢", mapQuery: "Penguin Parade", notes: ["【嚴格禁令】嚴禁攝影與拍照 (連不開閃光燈也不允許)，因為光源會傷害企鵝視力。","【極度保暖】夜晚海邊逼近寒冬等級 (5-10度)，請穿最厚的外套並戴上毛帽。","建議可以帶小型望遠鏡 (如 8x42) 來觀察海面上企鵝的集結動靜。"] },
-                    { time: "21:30", name: "返抵墨爾本", desc: "專車抵達市區", mapQuery: "" }
+                    { time: "09:45", name: "正式接送出發", desc: "從指定地點上車出發，接送車程約 1 小時。", mapQuery: "" },
+                    { time: "10:45", name: "普芬比利蒸汽火車", desc: "體驗約 1 小時經典冒黑煙蒸汽火車全景之旅。您可以把腳伸出窗外感受微風。", mapQuery: "Puffing Billy Railway" },
+                    { time: "11:45", name: "普芬比利鐵路休憩", desc: "在車站周邊稍作休息與停留 (約 45 分鐘)。", mapQuery: "" },
+                    { time: "12:30", name: "乘巴士前往菲利普島", desc: "長途巴士車程 (約 1.5 小時)，途中包含野生動物園參觀行程。", mapQuery: "Phillip Island" },
+                    { time: "16:00", name: "The Nobbies (諾比司角)", desc: "漫步於木棧道上，欣賞壯麗海岸景觀並吹海風 (停留約 20 分鐘)。", mapQuery: "The Nobbies" },
+                    { time: "16:20", name: "啟程前往企鵝歸巢地", desc: "乘巴士準備前往觀看小企鵝。", mapQuery: "" },
+                    { time: "18:30", name: "企鵝遊行 (Penguin Parade)", desc: "升級至「Penguins Plus 優選觀賞區」，極近距離觀賞小企鵝集體沿沙灘搖晃歸巢。", mapQuery: "Penguin Parade", notes: [
+                        "【嚴禁拍照錄影】為了小企鵝視力，海灘與看台絕對禁止使用手機或相機，工作人員執法嚴格！",
+                        "【極度保暖】菲利普島夜晚逼近寒冬等級，海風強勁，請務必穿上這趟旅行最厚的外套！"
+                    ] },
+                    { time: "20:00", name: "回程巴士出發", desc: "準備返回墨爾本，車程約 2 小時。", mapQuery: "" },
+                    { time: "22:00", name: "返抵墨爾本市區", desc: "結束長達 12 小時的豐富行程，送回早上的接送地點（女王陛下劇院）。", mapQuery: "Her Majesty's Theatre, 219 Exhibition St, Melbourne" }
                 ]
             },
             {
